@@ -34,6 +34,10 @@ end
 # Start a non blocking Listener
 listener.start(false)
 
+# Catch signals so we can exit gracefully
+trap('SIGINT' ){ puts; exit 1 }
+trap('SIGQUIT'){ puts; exit 1 }
+
 # Wait for a ctrl-d to quit
 while STDIN.getc
   # noop
