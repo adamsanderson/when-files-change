@@ -1,42 +1,29 @@
 #!/usr/bin/env ruby
-require 'listen'
 require 'optparse'
+require File.dirname(__FILE__) + '/../lib/change_listener'
 
-require File.dirname(__FILE__) + '/../lib/file_glob'
-
-listener = Listen.to('./')
+# Options
+ignored_paths = nil
 
 opts = OptionParser.new do |opts|    
   opts.banner = "Usage: #{File.basename($0)} [options] -- command [arguments]"
   opts.separator ""
   
   opts.on("-i", "--ignore PATHS", Array, "Ignore changes made at these paths") do |paths|
-    globs = paths.map{|p| FileGlob.new(p)}
-    listener.ignore(*globs)
+    ignore_paths = paths
   end
+  opts.parse! ARGV
 end
 
-def trigger(listener)
-  listener.pause
-  Kernel.system(* ARGV)
-  listener.unpause
-end
-
-# Ignore Hidden Files:
-listener.ignore(/^\.\w+/)
-
-opts.parse! ARGV
-if ARGV.length == 0
+command = ARGV.shift
+unless command
   puts opts
   exit 1 
 end
 
-listener.change do |modified, added, removed|
-  trigger(listener)
-end
-
-# Start a non blocking Listener
-listener.start(false)
+listener = ChangeListener.new(command, *ARGV)
+listener.ignore_paths(ignored_paths) if ignored_paths
+listener.start
 
 # Catch signals so we can exit gracefully
 trap('SIGINT' ){ puts; exit 1 }
@@ -44,5 +31,5 @@ trap('SIGQUIT'){ puts; exit 1 }
 
 # Wait for a ctrl-d to quit
 while char = STDIN.getc
-  trigger listener if char == "\n"
+  listener.execute if char == "\n"
 end
