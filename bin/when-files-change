@@ -31,4 +31,10 @@ listener.change do |modified, added, removed|
   listener.unpause
 end
 
-listener.start
+# Start a non blocking Listener
+listener.start(false)
+
+# Wait for a ctrl-d to quit
+while STDIN.getc
+  # noop
+end
