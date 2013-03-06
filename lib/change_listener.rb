@@ -20,7 +20,7 @@ class ChangeListener
   
   def execute
     listener.pause
-    Kernel.system(command, *arguments)
+    Kernel.system(ENV, command, *arguments)
     listener.unpause
   end
   
