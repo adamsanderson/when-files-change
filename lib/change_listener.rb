@@ -20,7 +20,8 @@ class ChangeListener
   
   def execute
     listener.pause
-    Kernel.system(ENV, command, *arguments)
+    success = Kernel.system(ENV, command, *arguments)
+    report_error unless success
     listener.unpause
   end
   
@@ -32,5 +33,9 @@ class ChangeListener
     globs = paths.map{|p| FileGlob.new(p)}
     
     @listener.ignore(*globs)
+  end
+  
+  def report_error
+    STDERR.puts "#{command.inspect} exited with #{$?.exitstatus}"
   end
 end
