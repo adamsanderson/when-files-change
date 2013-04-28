@@ -46,7 +46,7 @@ class ChangeListener
   
   def run_command
     out.puts command_to_s  if verbose?
-    success = Kernel.system(ENV, command, *arguments, :unsetenv_others=>false, :in=>"/dev/null")
+    success = Kernel.system(ENV, command, *arguments)
     report_error unless success
   end
   
