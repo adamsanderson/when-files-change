@@ -2,8 +2,9 @@
 require 'optparse'
 require File.dirname(__FILE__) + '/../lib/change_listener'
 
-# Options
+# Default Options
 ignored_paths = nil
+verbose       = false
 
 opts = OptionParser.new do |opts|    
   opts.banner = "Usage: #{File.basename($0)} [options] -- command [arguments]"
@@ -12,6 +13,11 @@ opts = OptionParser.new do |opts|
   opts.on("-i", "--ignore PATHS", Array, "Ignore changes made at these paths") do |paths|
     ignore_paths = paths
   end
+  
+  opts.on("-v", "--verbose", "Enable verbose mode") do
+    verbose = true
+  end
+  
   opts.parse! ARGV
 end
 
@@ -23,6 +29,7 @@ end
 
 listener = ChangeListener.new(command, *ARGV)
 listener.ignore_paths(ignored_paths) if ignored_paths
+listener.verbose = verbose
 listener.start
 
 # Catch signals so we can exit gracefully
