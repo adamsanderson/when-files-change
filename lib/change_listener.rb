@@ -18,6 +18,7 @@ class ChangeListener
   end
   
   def start
+    out.puts "Listening..." if verbose?
     listener.start(false)
   end
   
@@ -44,13 +45,13 @@ class ChangeListener
   private
   
   def run_command
-    out.print "#{command_to_s} " if verbose?
-    success = Kernel.system(ENV, command, *arguments)
+    out.puts command_to_s  if verbose?
+    success = Kernel.system(ENV, command, *arguments, :unsetenv_others=>false, :in=>"/dev/null")
     report_error unless success
   end
   
   def report_error
-    out.puts "exited with #{$?.exitstatus}"
+    out.puts "* Exited with #{$?.exitstatus}"
   end
   
   def command_to_s
