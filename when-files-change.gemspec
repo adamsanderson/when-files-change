@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.description = 'Whenever files in your working directory change, execute a command, such as "rake test".'
 
   s.add_dependency 'listen', '~> 0.7'
+  s.add_dependency 'file_glob', '~> 0.0'
 
   s.files        = Dir.glob('{bin,lib}/**/*') + ["README.markdown"]
   s.executable   = 'when-files-change'
