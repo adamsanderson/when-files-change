@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'when-files-change'
-  s.version     = '0.2.2'
+  s.version     = '0.2.3'
   s.authors     = ['Adam Sanderson']
   s.email       = ['netghost@gmail.com']
   s.homepage    = 'https://github.com/adamsanderson/when-files-change'
