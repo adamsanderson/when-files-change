@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'optparse'
-require File.dirname(__FILE__) + '/../lib/change_listener'
+require File.dirname(__FILE__) + '/../lib/when_files_change'
 
 # Default Options
 ignored_paths = nil
@@ -27,7 +27,7 @@ unless command
   exit 1 
 end
 
-listener = ChangeListener.new(command, *ARGV)
+listener = WhenFilesChange.new(command, *ARGV)
 listener.ignore_paths(ignored_paths) if ignored_paths
 listener.verbose = verbose
 listener.start

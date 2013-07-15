@@ -1,7 +1,7 @@
 require 'listen'
 require 'file_glob'
 
-class ChangeListener
+class WhenFilesChange
   attr_reader :listener
   attr_reader :command
   attr_reader :arguments
