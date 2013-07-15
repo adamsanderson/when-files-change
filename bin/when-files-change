@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'optparse'
-require File.dirname(__FILE__) + '/../lib/when_files_change'
+require_relative '../lib/when_files_change'
 
 # Default Options
 ignored_paths = nil
